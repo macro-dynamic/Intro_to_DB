@@ -3,27 +3,29 @@ from mysql.connector import Error
 
 def create_database():
     try:
-        # Establish the connection
+        # Connect to the MySQL server (update with your MySQL username and password)
         connection = mysql.connector.connect(
-            host='localhost',  # Change if your MySQL server is hosted elsewhere
-            user='your_username',  # Replace with your MySQL username
-            password='your_password'  # Replace with your MySQL password
+            host="localhost",
+            user="your_username",
+            password="your_password"
         )
-
+        
         if connection.is_connected():
+            # Create a cursor object
             cursor = connection.cursor()
-            # Create the database if it does not exist
+            # Create database if it doesn't exist
             cursor.execute("CREATE DATABASE IF NOT EXISTS alx_book_store")
             print("Database 'alx_book_store' created successfully!")
-
+            
     except Error as e:
         print(f"Error: {e}")
+        
     finally:
         # Close the cursor and connection
-        if cursor:
-            cursor.close()
         if connection.is_connected():
+            cursor.close()
             connection.close()
+            print("MySQL connection is closed")
 
-if __name__ == "__main__":
-    create_database()
+# Run the function to create the database
+create_database()
